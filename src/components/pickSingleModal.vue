@@ -113,6 +113,8 @@
         <radio title="title" :options="options" v-model="chooseVal"></radio>
       </group>
     </popup>
+    <audio ref="successAudio" src="/static/picksuccess.mp3" preload="auto" muted></audio>
+    <audio ref="failAudio" src="/static/pickfail.mp3" preload="auto" muted></audio>
   </div>
 </template>
 
@@ -324,15 +326,18 @@ export default {
               });
               this.shopList.splice(0, 1);
               this.actionInput();
+              this.$refs.successAudio.play();
             } else {
               this.$vux.toast.show({
                 text: "拣货失败",
                 width: "2rem",
                 type: "error"
               });
+              this.$refs.failAudio.play();
             }
           });
         } else {
+           this.$refs.failAudio.play();
           this.$vux.toast.show({
             text: "请输入正确的货位架",
             width: "3rem",
@@ -366,7 +371,7 @@ export default {
     bottom: 0;
     margin: auto;
     width: 16rem;
-    max-height: 80%;
+    max-height: 90%;
     // display: table;
     background-color: #fff;
     border-radius: 20px;
@@ -374,9 +379,10 @@ export default {
     display: flex;
     flex-direction: column;
     .yjs-table-box {
-      font-size: 20px;
+      // font-size: 20px;
       flex-grow: 1;
       padding: 10px;
+      overflow: auto;
     }
     .yjs-modal-edit {
       position: relative;
@@ -398,6 +404,9 @@ export default {
 .group-margin /deep/ .weui-cells {
   margin-top: 0;
 }
+.yjs-modal-input /deep/ .weui_icon_clear {
+  font-size: 30px !important;
+}
 .order-container {
   display: flex;
   flex-wrap: wrap;
@@ -410,10 +419,13 @@ export default {
   text-align: left;
 }
 .mainContent {
+  font-size: 0.28rem;
+  line-height: 0.35rem;
+
   //   height: 100%;
-  overflow: auto;
-  font-size: 24px;
-  line-height: 30px;
+  // overflow: auto;
+  // font-size: 24px;
+  // line-height: 30px;
   .label {
     text-align: center;
     color: grey;

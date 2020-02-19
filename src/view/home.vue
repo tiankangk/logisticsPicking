@@ -169,7 +169,7 @@ export default {
           (this.btnStatus === "single" || this.btnStatus === "all") &&
           this.pickStatus
         ) {
-            //   if(true){
+          // if(true){
           getPickGoodsSingleOrder({ userId: this.getUserId }).then(res => {
             if (res.success === true) {
               this.isDrop.isGetSingleOrder = true;
@@ -209,9 +209,9 @@ export default {
       this.$router.push("/home/variousShopInfo");
       let userStatus = await this.getUserStatus();
       if (userStatus !== 4) {
-        //    if(true){
+      // if (true) {
         if (this.btnStatus === "many" || this.btnStatus === "all") {
-        //   if(true){
+        // if (true) {
           if (this.getPickOrderCount < 20) {
             getPickGoodsOrder({ userId: this.userId }).then(res => {
               if (res.success === true) {

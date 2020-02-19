@@ -150,6 +150,8 @@
         <radio title="title" :options="options" v-model="chooseVal"></radio>
       </group>
     </popup>
+    <audio ref="successAudio"  src="/static/picksuccess.mp3" preload="auto" muted></audio>
+     <audio ref="failAudio"  src="/static/pickfail.mp3" preload="auto" muted></audio>
     <!-- <popup-header
             left-text="取消"
             title="选择"
@@ -245,12 +247,18 @@ export default {
       console.log("newVal", newVal);
       if (0 in newVal) {
         this.baseInfo = newVal[0];
-        this.phList = newVal.map(item => {
-          return {
-            scph: item.SCPH,
-            sl: item.SL
-          };
-        });
+        this.phList = [
+          {
+            scph: newVal[0].SCPH,
+            sl: newVal[0].SL
+          }
+        ];
+        //   newVal.map(item => {
+        //   return {
+        //     scph: item.SCPH,
+        //     sl: item.SL
+        //   };
+        // });
       } else {
         this.baseInfo = {};
         this.phList = [];
@@ -449,26 +457,32 @@ export default {
             ypbm: this.pickShopList[0].YPBM,
             scph: this.pickShopList[0].SCPH
           }).then(res => {
-            this.$vux.toast.show({
-              text: `拣货完成，拣货篮号<span style="color:red;">${this.pickShopList[0].carid}</span>`,
-              width: "3rem",
-              type: "success"
-            });
-            if (this.pickShopList.length === 1) {
-              // this.reload();
-              delete this.shopList[this.areaNum];
-              if (Object.keys(this.shopList).length == 0) {
-                this.reload();
+            if (res.success) {
+              this.$vux.toast.show({
+                text: `拣货完成，拣货篮号<span style="color:red;">${this.pickShopList[0].carid}</span>`,
+                width: "3rem",
+                type: "success"
+              });
+              if (this.pickShopList.length === 1) {
+                // this.reload();
+                delete this.shopList[this.areaNum];
+                if (Object.keys(this.shopList).length == 0) {
+                  this.reload();
+                } else {
+                  this.areaNum = Object.keys(this.shopList)[0];
+                  this.clickRegin(this.shopList[Object.keys(this.shopList)[0]]);
+                }
               } else {
-                this.areaNum = Object.keys(this.shopList)[0];
-                this.clickRegin(this.shopList[Object.keys(this.shopList)[0]]);
+                this.pickShopList.splice(0, 1);
+                this.confirmValidity(this.pickShopList[0].YXQZ);
               }
+                this.$refs.successAudio.play();
             } else {
-              this.pickShopList.splice(0, 1);
-              this.confirmValidity(this.pickShopList[0].YXQZ);
+               this.$refs.failAudio.play();
             }
           });
         } else {
+            this.$refs.failAudio.play();
           this.$vux.toast.show({
             text: "请输入正确的货位架",
             width: "3rem",
@@ -583,15 +597,19 @@ export default {
   // padding: 0 1rem;
 }
 .yjs-table-box {
-  font-size: 20px;
+  overflow: auto;
+  // font-size: 20px;
   flex-grow: 1;
   padding: 10px;
 }
+.yjs-modal-input /deep/ .weui_icon_clear {
+  font-size: 30px !important;
+}
 .mainContent {
   //   height: 100%;
-  overflow: auto;
-  font-size: 24px;
-  line-height: 30px;
+  // overflow: auto;
+  font-size: 0.28rem;
+  line-height: 0.35rem;
   .label {
     text-align: center;
     color: grey;

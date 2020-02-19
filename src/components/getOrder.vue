@@ -6,11 +6,7 @@
       </div>
       <div class="yjs-table-box">
         <div class="order-container">
-          <div
-            class="order-item"
-            v-for="(shop, ind) in orderInforList"
-            :key="ind"
-          >
+          <div class="order-item" v-for="(shop, ind) in orderInforList" :key="ind">
             <span>{{ shop.label + ":" }}</span>
             <span>{{ shop.value }}</span>
           </div>
@@ -38,7 +34,7 @@
         </div>
         <!-- <group class="group-margin">
                     <cell-form-preview class="table-fontsize" :list="orderInforList"></cell-form-preview>
-                </group>-->
+        </group>-->
       </div>
       <div class="yjs-modal-input">
         <group>
@@ -294,6 +290,9 @@ export default {
 .yjs-modal-input /deep/ .weui-cells,
 .group-margin /deep/ .weui-cells {
   margin-top: 0;
+}
+.yjs-modal-input /deep/ .weui_icon_clear {
+  font-size: 30px !important;
 }
 .order-container {
   display: flex;
