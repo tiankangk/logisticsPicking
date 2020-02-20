@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 if (process.env.NODE_ENV === 'development') {
-    var baseURL = `http://192.168.0.204:3001/`
+    var baseURL = `http://192.168.0.137:3001/`
 } else {
     var baseURL = `http://192.168.0.38:3001/`
 }
@@ -88,4 +88,11 @@ export const isUsedCarNum = (params) => {
 export const getPickGoodsUserStatus = (params) => {
     return axios.post(baseURL + 'getPickGoodsUserStatus', params).then(res => res.data)
 }
+
+// 获取单品和多品订单的数量
+export const getSingleMoreOrderCount = (data) => {
+    return axios.post(baseURL + 'getSingleMoreOrderCount',data).then(res => res.data)
+}
+
+
 

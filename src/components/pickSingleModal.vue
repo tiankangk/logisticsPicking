@@ -16,8 +16,10 @@
               <flexbox-item>{{baseInfo.SCCJ}}</flexbox-item>
             </flexbox>
             <flexbox class="top-line">
-              <flexbox-item class="label" :span="2">批准文号</flexbox-item>
-              <flexbox-item>{{baseInfo.PZWH}}</flexbox-item>
+              <flexbox-item class="label " :span="2">批准文号</flexbox-item>
+              <flexbox-item class="right-line">{{baseInfo.PZWH}}</flexbox-item>
+               <flexbox-item class="label" :span="2">库存数量</flexbox-item>
+              <flexbox-item :span="4">{{baseInfo.KCSL}}</flexbox-item>
             </flexbox>
             <flexbox class="top-line">
               <flexbox-item class="label" :span="2">药品编码</flexbox-item>

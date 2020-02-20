@@ -76,7 +76,9 @@
             </flexbox>
             <flexbox class="top-line">
               <flexbox-item class="label" :span="2">批准文号</flexbox-item>
-              <flexbox-item>{{baseInfo.PZWH}}</flexbox-item>
+              <flexbox-item class="right-line">{{baseInfo.PZWH}}</flexbox-item>
+              <flexbox-item class="label" :span="2">库存数量</flexbox-item>
+              <flexbox-item>{{baseInfo.KCSL}}</flexbox-item>
             </flexbox>
             <flexbox class="top-line">
               <flexbox-item class="label" :span="2">药品编码</flexbox-item>
@@ -150,8 +152,8 @@
         <radio title="title" :options="options" v-model="chooseVal"></radio>
       </group>
     </popup>
-    <audio ref="successAudio"  src="/static/picksuccess.mp3" preload="auto" muted></audio>
-     <audio ref="failAudio"  src="/static/pickfail.mp3" preload="auto" muted></audio>
+    <audio ref="successAudio" src="/static/picksuccess.mp3" preload="auto" muted></audio>
+    <audio ref="failAudio" src="/static/pickfail.mp3" preload="auto" muted></audio>
     <!-- <popup-header
             left-text="取消"
             title="选择"
@@ -476,13 +478,13 @@ export default {
                 this.pickShopList.splice(0, 1);
                 this.confirmValidity(this.pickShopList[0].YXQZ);
               }
-                this.$refs.successAudio.play();
+              this.$refs.successAudio.play();
             } else {
-               this.$refs.failAudio.play();
+              this.$refs.failAudio.play();
             }
           });
         } else {
-            this.$refs.failAudio.play();
+          this.$refs.failAudio.play();
           this.$vux.toast.show({
             text: "请输入正确的货位架",
             width: "3rem",

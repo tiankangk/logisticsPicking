@@ -10,7 +10,8 @@
           多订单
           <span>{{canGetOrderCount}}</span>,
           拣货单
-          <span>{{getPickOrderCount}}</span>
+          <span>{{singleOrderCount}}</span>-
+          <span>{{moreOrderCount}}</span>
         </div>
       </div>
       <div class="yjs-table-box">
@@ -52,7 +53,7 @@
     <get-single-order ref="getSingleOrder" :isDrop="isDrop" :getSingleOrder="getSingleOrder"></get-single-order>
     <audio ref="audio" loop src="/static/bg.mp3" preload="auto" muted></audio>
     <audio ref="getOrderNotice" src="/static/getOrder.mp3" preload="auto" muted></audio>
-    <!-- <iframe allow="autoplay" style="display:none" src="/static/bg.mp3"></iframe> -->
+    <iframe allow="autoplay" style="display:none" src="/static/bg.mp3"></iframe>
   </div>
 </template>
 
@@ -68,7 +69,8 @@ import {
   getPickGoodOrderCount,
   getPickGoodsSingleOrder,
   getPickGoodsUserStatus,
-  getPickGoodSingleOrderCount
+  getPickGoodSingleOrderCount,
+  getSingleMoreOrderCount
 } from "@/api";
 import { setTimeout, clearTimeout, setInterval, clearInterval } from "timers";
 export default {
@@ -86,6 +88,8 @@ export default {
       isOrder: {
         val: true
       },
+      singleOrderCount:0,
+      moreOrderCount:0,
       canGetSingleOrderCount: 0,
       canGetOrderCount: 0,
       isDrop: {
@@ -311,12 +315,27 @@ export default {
         //     }, 30000);
         // });
       }, 300000);
+    },
+    getSingleMoreOrderCount(){
+      console.log('userId',this.getUserId);
+      getSingleMoreOrderCount({ userId: this.getUserId }).then(res =>{
+        console.log(res);
+        if(res.success){
+          this.singleOrderCount = res.singleNum;
+          this.moreOrderCount = res.moreNum;
+        } else {
+          this.singleOrderCount = 0;
+          this.moreOrderCount = 0;
+        }
+      })
     }
   },
   async mounted() {
+   
     this.getSingleOrderCount();
     this.getVariousOrderCount();
     this.getOrderCount();
+     this.getSingleMoreOrderCount();
   },
   destroyed() {
     this.closeTimer();
