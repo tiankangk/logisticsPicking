@@ -79,6 +79,10 @@ export default {
             label: "商品名称",
             value: newList.YPMC
           },
+           {
+            label: "生产厂家",
+            value: newList.SCCJ
+          },
           {
             label: "规格",
             value: newList.YPGG

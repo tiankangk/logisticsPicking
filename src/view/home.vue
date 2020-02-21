@@ -88,8 +88,8 @@ export default {
       isOrder: {
         val: true
       },
-      singleOrderCount:0,
-      moreOrderCount:0,
+      singleOrderCount: 0,
+      moreOrderCount: 0,
       canGetSingleOrderCount: 0,
       canGetOrderCount: 0,
       isDrop: {
@@ -213,9 +213,9 @@ export default {
       this.$router.push("/home/variousShopInfo");
       let userStatus = await this.getUserStatus();
       if (userStatus !== 4) {
-      // if (true) {
-        if (this.btnStatus === "many" || this.btnStatus === "all") {
         // if (true) {
+        if (this.btnStatus === "many" || this.btnStatus === "all") {
+          // if (true) {
           if (this.getPickOrderCount < 20) {
             getPickGoodsOrder({ userId: this.userId }).then(res => {
               if (res.success === true) {
@@ -316,26 +316,25 @@ export default {
         // });
       }, 300000);
     },
-    getSingleMoreOrderCount(){
-      console.log('userId',this.getUserId);
-      getSingleMoreOrderCount({ userId: this.getUserId }).then(res =>{
+    getSingleMoreOrderCount() {
+      console.log("userId", this.getUserId);
+      getSingleMoreOrderCount({ userId: this.getUserId }).then(res => {
         console.log(res);
-        if(res.success){
+        if (res.success) {
           this.singleOrderCount = res.singleNum;
           this.moreOrderCount = res.moreNum;
         } else {
           this.singleOrderCount = 0;
           this.moreOrderCount = 0;
         }
-      })
+      });
     }
   },
   async mounted() {
-   
     this.getSingleOrderCount();
     this.getVariousOrderCount();
     this.getOrderCount();
-     this.getSingleMoreOrderCount();
+    this.getSingleMoreOrderCount();
   },
   destroyed() {
     this.closeTimer();
