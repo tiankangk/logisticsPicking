@@ -16,9 +16,9 @@
               <flexbox-item>{{baseInfo.SCCJ}}</flexbox-item>
             </flexbox>
             <flexbox class="top-line">
-              <flexbox-item class="label " :span="2">批准文号</flexbox-item>
+              <flexbox-item class="label" :span="2">批准文号</flexbox-item>
               <flexbox-item class="right-line">{{baseInfo.PZWH}}</flexbox-item>
-               <flexbox-item class="label" :span="2">库存数量</flexbox-item>
+              <flexbox-item class="label" :span="2">库存数量</flexbox-item>
               <flexbox-item :span="4">{{baseInfo.KCSL}}</flexbox-item>
             </flexbox>
             <flexbox class="top-line">
@@ -339,7 +339,7 @@ export default {
             }
           });
         } else {
-           this.$refs.failAudio.play();
+          this.$refs.failAudio.play();
           this.$vux.toast.show({
             text: "请输入正确的货位架",
             width: "3rem",
@@ -442,6 +442,11 @@ export default {
 }
 .popup-content {
   z-index: 1000;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  width: 80%;
+  left: 50%;
+  transform: translateX(-50%);
 }
 .top-line,
 .right-line {
