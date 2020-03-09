@@ -60,7 +60,6 @@
 <script>
 import getOrder from "@/components/getOrder";
 import getSingleOrder from "@/components/getSingleOrder";
-import { XTable, XButton } from "vux";
 import { mapGetters } from "vuex";
 import publicHeader from "@/components/header";
 import {
@@ -76,8 +75,6 @@ import { setTimeout, clearTimeout, setInterval, clearInterval } from "timers";
 export default {
   name: "home",
   components: {
-    XTable,
-    XButton,
     getOrder,
     getSingleOrder,
     publicHeader
@@ -317,9 +314,7 @@ export default {
       }, 300000);
     },
     getSingleMoreOrderCount() {
-      console.log("userId", this.getUserId);
       getSingleMoreOrderCount({ userId: this.getUserId }).then(res => {
-        console.log(res);
         if (res.success) {
           this.singleOrderCount = res.singleNum;
           this.moreOrderCount = res.moreNum;

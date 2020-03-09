@@ -53,7 +53,6 @@
 </template>
 
 <script>
-    import { XTable, XButton } from "vux";
     import { mapGetters } from "vuex";
     import publicHeader from "@/components/header";
     import pickSingleModal from "components/pickSingleModal";
@@ -61,8 +60,6 @@
     export default {
         name: "singleShopInfo",
         components: {
-            XTable,
-            XButton,
             pickSingleModal,
             publicHeader
         },

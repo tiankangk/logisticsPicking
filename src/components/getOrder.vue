@@ -54,14 +54,6 @@
 
 <script>
 import { mapGetters } from "vuex";
-import {
-  XTable,
-  XButton,
-  XInput,
-  Group,
-  CellFormPreview,
-  dateFormat
-} from "vux";
 import { havePickGoodsOrder, isUsedCarNum } from "@/api";
 export default {
   name: "getOrder",
@@ -83,13 +75,6 @@ export default {
       type: Object,
       required: true
     }
-  },
-  components: {
-    XTable,
-    XInput,
-    XButton,
-    Group,
-    CellFormPreview
   },
   data() {
     return {

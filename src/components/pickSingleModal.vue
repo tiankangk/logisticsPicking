@@ -121,21 +121,6 @@
 </template>
 
 <script>
-import {
-  Flexbox,
-  FlexboxItem,
-  XTable,
-  XButton,
-  XInput,
-  Group,
-  CellFormPreview,
-  Tab,
-  TabItem,
-  dateFormat,
-  PopupHeader,
-  Popup,
-  Radio
-} from "vux";
 import { mapGetters } from "vuex";
 import {
   pickSingleGoods,
@@ -154,22 +139,6 @@ export default {
       type: Array,
       required: true
     }
-  },
-
-  components: {
-    Flexbox,
-    FlexboxItem,
-    XTable,
-    XButton,
-    XInput,
-    Group,
-    CellFormPreview,
-    Tab,
-    TabItem,
-    dateFormat,
-    PopupHeader,
-    Popup,
-    Radio
   },
   data() {
     return {

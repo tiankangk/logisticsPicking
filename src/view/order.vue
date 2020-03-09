@@ -14,6 +14,7 @@
             ></x-button>
           </swiper-slide>
         </swiper>
+        <div @click="handleAbnormal">test</div>
       </div>
       <div class="yjs-content">
         <div class="yjs-content-sub">
@@ -159,25 +160,15 @@
             title="选择"
             show-bottom-border="true"
     ></popup-header>-->
+    <!-- 异常订单的弹窗 -->
+    <modal v-model="isModal" title="异常订单" @on-ok="submitAbnormal">
+        <d-table></d-table>
+    </modal>
   </div>
 </template>
 
 <script>
-import {
-  XTable,
-  XButton,
-  XInput,
-  Group,
-  CellFormPreview,
-  Tab,
-  TabItem,
-  dateFormat,
-  PopupHeader,
-  Popup,
-  Flexbox,
-  FlexboxItem,
-  Radio
-} from "vux";
+
 import {
   getPickGoodsUserAllOrderShop,
   pickGoods,
@@ -191,24 +182,13 @@ export default {
   name: "order",
   inject: ["reload"],
   components: {
-    Flexbox,
-    FlexboxItem,
-    XTable,
-    XInput,
-    XButton,
-    Group,
-    Tab,
-    TabItem,
-    CellFormPreview,
-    swiper,
-    swiperSlide,
     publicHeader,
-    PopupHeader,
-    Popup,
-    Radio
+     swiper,
+        swiperSlide
   },
   data() {
     return {
+      isModal:false,
       isPopup: false,
       chooseVal: "批号不符",
       options: ["批号不符", "数量不足", "货位架不存在"],
@@ -246,7 +226,6 @@ export default {
   },
   watch: {
     pickShopList(newVal) {
-      console.log("newVal", newVal);
       if (0 in newVal) {
         this.baseInfo = newVal[0];
         this.phList = [
@@ -319,6 +298,12 @@ export default {
     }
   },
   methods: {
+    handleAbnormal(){
+      this.isModal = true;
+    },
+    submitAbnormal(){
+      console.log('test');
+    },
     /**
      * 取消选择
      */
@@ -527,7 +512,6 @@ export default {
         shopList[item.FQBH].push(item);
       });
       let newShopList = this.sortNameFun(shopList);
-      console.log("sortVal", sortVal);
       for (let item in newShopList) {
         // if (newShopList[item].HWBH) {
         newShopList[item] = newShopList[item].sort(this.sortValFun(sortVal));
@@ -554,17 +538,14 @@ export default {
         //     }
         //     shopList[item.FQBH].push(item);
         // });
-        // console.log("shopList", shopList);
         // let newShopList = this.sortNameFun(shopList);
         // for (let item in newShopList) {
-        //     console.log("item1", newShopList[item]);
         //     // if (newShopList[item].HWBH) {
         //     newShopList[item] = newShopList[item].sort(
         //         this.sortValFun("HWBH")
         //     );
         //     // }
         // }
-        // console.log("newShopList", newShopList);
         // // this.shopList = this.sortNameFun(shopList);
         // this.shopList = newShopList;
       } else {

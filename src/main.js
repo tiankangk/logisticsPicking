@@ -4,10 +4,14 @@ import Vue from 'vue';
 import App from './App';
 import router from './router';
 import FastClick from 'fastclick';
-import { ToastPlugin,LoadingPlugin,ConfirmPlugin  } from 'vux'
+import '@/utils/vuxCom.js'
+import '@/utils/definedCom.js'
+
+
+
 import store from './store'
 
-Vue.use(ToastPlugin).use(LoadingPlugin).use(ConfirmPlugin);
+
 
 FastClick.attach(document.body);
 Vue.config.productionTip = false;

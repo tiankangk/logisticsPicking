@@ -30,14 +30,10 @@
 </template>
 
 <script>
-    import { XTable, dateFormat } from "vux";
     import { mapGetters,mapMutations } from "vuex";
     import { getPickGoodsUserAllOrder } from "api";
     export default {
         name: "variousShopInfo",
-        components: {
-            XTable
-        },
         data() {
             return {
                 userOrderList: [],

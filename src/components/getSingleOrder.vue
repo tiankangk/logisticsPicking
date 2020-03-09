@@ -32,14 +32,6 @@
 
 <script>
 import { mapGetters } from "vuex";
-import {
-  XTable,
-  XButton,
-  XInput,
-  Group,
-  CellFormPreview,
-  dateFormat
-} from "vux";
 import { havePickGoodsSingleOrder, isUsedCarNum } from "@/api";
 export default {
   name: "getOrder",
@@ -61,13 +53,6 @@ export default {
   },
   computed: {
     ...mapGetters(["getUserId"])
-  },
-  components: {
-    XTable,
-    XInput,
-    XButton,
-    Group,
-    CellFormPreview
   },
   watch: {
     getSingleOrder(list) {

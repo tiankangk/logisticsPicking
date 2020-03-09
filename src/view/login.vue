@@ -44,18 +44,10 @@
 </template>
 
 <script>
-    import { XButton, Cell, XInput, Group, XImg } from "vux";
     import { mapMutations } from "vuex";
     import { pickGoodsLogin } from "@/api";
     export default {
         name: "login",
-        components: {
-            XButton,
-            Cell,
-            XInput,
-            Group,
-            XImg
-        },
         data() {
             return {
                 username: "",

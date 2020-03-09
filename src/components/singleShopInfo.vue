@@ -25,14 +25,10 @@
 </template>
 
 <script>
-    import { XTable } from "vux";
     import { mapGetters,mapMutations } from "vuex";
     import { getPickGoodsUserAllSingleOrder, getPickGoodSingleOrderCount } from "api";
     export default {
         name: "singleShopInfo",
-        components: {
-            XTable
-        },
         data() {
             return {
                 shopList: [],
