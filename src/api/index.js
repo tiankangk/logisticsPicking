@@ -94,5 +94,14 @@ export const getSingleMoreOrderCount = (data) => {
     return axios.post(baseURL + 'getSingleMoreOrderCount',data).then(res => res.data)
 }
 
+// 获取当前登录人的异常订单的信息
+export const getMobileAbnormalOrderShop = (data) => {
+    return axios.post(baseURL + 'getMobileAbnormalOrderShop',data).then(res => res.data)
+}
+
+// 恢复异常订单
+export const changePickGoodAbnormalOrderStauts = (data) => {
+    return axios.post(baseURL + 'changePickGoodAbnormalOrderStauts',data).then(res => res.data)
+}
 
 

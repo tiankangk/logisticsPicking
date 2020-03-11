@@ -1,12 +1,12 @@
 <template>
   <div class="shade" v-if="isShow">
-    <div class="modal">
+    <div class="modal" :style="{width:width}">
       <div class="modal-header">
         <div class="header-title">{{title}}</div>
         <x-icon type="ios-close-empty" size="40" class="icon-grey" @click="close"></x-icon>
       </div>
       <div class="modal-body">
-        <slot>fdfad</slot>
+        <slot></slot>
       </div>
       <div class="modal-footer">
         <slot name="footer">
@@ -35,13 +35,23 @@ export default {
       default() {
         return "";
       }
+    },
+    width: {
+      type: String,
+      default() {
+        return "auto";
+      }
     }
   },
   model: {
     prop: "isShow",
     event: "closed"
   },
-
+  watch:{
+    isShow(val){
+      this.$emit('visibleChange',val);
+    }
+  },
   methods: {
     close() {
       this.$emit("closed", false);
@@ -85,6 +95,7 @@ export default {
       align-items: center;
     }
     .modal-body {
+      
     }
     .modal-footer {
       padding: 0.1rem;

@@ -2,7 +2,7 @@
   <div class="yjs-home">
     <public-header></public-header>
     <div class="yjs-order">
-      <div class="yjs-regin-home">
+      <div :style="{display:'flex'}" class="yjs-regin-home">
         <swiper :options="swiperOption" class="swiper-width">
           <swiper-slide v-for="(item,ind) in shopList" :key="ind">
             <x-button
@@ -14,7 +14,6 @@
             ></x-button>
           </swiper-slide>
         </swiper>
-        <div @click="handleAbnormal">test</div>
       </div>
       <div class="yjs-content">
         <div class="yjs-content-sub">
@@ -161,18 +160,16 @@
             show-bottom-border="true"
     ></popup-header>-->
     <!-- 异常订单的弹窗 -->
-    <modal v-model="isModal" title="异常订单" @on-ok="submitAbnormal">
-        <d-table></d-table>
-    </modal>
+  
   </div>
 </template>
 
 <script>
-
 import {
   getPickGoodsUserAllOrderShop,
   pickGoods,
   markReviewDiffOrder
+  
 } from "@/api";
 import "swiper/dist/css/swiper.css";
 import publicHeader from "@/components/header";
@@ -183,12 +180,12 @@ export default {
   inject: ["reload"],
   components: {
     publicHeader,
-     swiper,
-        swiperSlide
+    swiper,
+    swiperSlide
   },
   data() {
     return {
-      isModal:false,
+     
       isPopup: false,
       chooseVal: "批号不符",
       options: ["批号不符", "数量不足", "货位架不存在"],
@@ -298,12 +295,7 @@ export default {
     }
   },
   methods: {
-    handleAbnormal(){
-      this.isModal = true;
-    },
-    submitAbnormal(){
-      console.log('test');
-    },
+  
     /**
      * 取消选择
      */
@@ -559,6 +551,7 @@ export default {
 <style lang="less" scoped>
 @import "../style/public.less";
 @import "../style/order.less";
+
 .table-fontsize {
   font-size: 22px;
 }
