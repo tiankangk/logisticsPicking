@@ -13,6 +13,8 @@ import store from './store'
 
 
 
+
+
 FastClick.attach(document.body);
 Vue.config.productionTip = false;
 

@@ -1,9 +1,39 @@
 import axios from 'axios'
-
+import store from '@/store'
+import { formatTime } from '@/utils/tools.js'
 if (process.env.NODE_ENV === 'development') {
-    var baseURL = `http://localhost:3001/`
+    var baseURL = `http://localhost:3001/`;
+    var outURL = `http://mqs-api.tst.yaojushi.com/svc/v1/`;
 } else {
     var baseURL = `http://192.168.0.38:3001/`
+    var outURL = `http://mqs-api.yaojushi.com/svc/v1/`;
+}
+
+
+
+/**
+ * 
+ * 消息推送
+ */
+export const pushMessage = params => {
+    let { getUserId, getUsername } = store.getters;
+    let nowTime = formatTime();
+    let data = {
+        sendUserId: getUserId,
+        sendUserName: getUsername,
+        sendType: 100,
+        sendMode: 100,
+        sendTime: nowTime,
+        notificationTitle: '缺货上架',
+        notificationContent: JSON.stringify(params),
+        receiveUserId: '0722',
+        moduleId: '1242095274848772001'
+    }
+    return axios.post(outURL + 'notification', data, {
+        headers: {
+            'Authorization': "Basic " + btoa("BasicData:jianke@basIcDaTA")
+        }
+    }).then(res => res.data)
 }
 
 /**
@@ -22,6 +52,8 @@ export const getPickGoodsOrder = (params) => {
 export const getPickGoodsSingleOrder = (params) => {
     return axios.post(baseURL + 'getPickGoodsSingleOrder', params).then(res => res.data)
 }
+
+
 
 
 // 接单品订单
@@ -91,17 +123,17 @@ export const getPickGoodsUserStatus = (params) => {
 
 // 获取单品和多品订单的数量
 export const getSingleMoreOrderCount = (data) => {
-    return axios.post(baseURL + 'getSingleMoreOrderCount',data).then(res => res.data)
+    return axios.post(baseURL + 'getSingleMoreOrderCount', data).then(res => res.data)
 }
 
 // 获取当前登录人的异常订单的信息
 export const getMobileAbnormalOrderShop = (data) => {
-    return axios.post(baseURL + 'getMobileAbnormalOrderShop',data).then(res => res.data)
+    return axios.post(baseURL + 'getMobileAbnormalOrderShop', data).then(res => res.data)
 }
 
 // 恢复异常订单
 export const changePickGoodAbnormalOrderStauts = (data) => {
-    return axios.post(baseURL + 'changePickGoodAbnormalOrderStauts',data).then(res => res.data)
+    return axios.post(baseURL + 'changePickGoodAbnormalOrderStauts', data).then(res => res.data)
 }
 
 

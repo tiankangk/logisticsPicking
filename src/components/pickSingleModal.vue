@@ -9,29 +9,35 @@
           <div class="mainContent">
             <flexbox>
               <flexbox-item class="label" :span="2">药品名称</flexbox-item>
-              <flexbox-item>{{baseInfo.YPMC}}</flexbox-item>
+              <flexbox-item>{{ baseInfo.YPMC }}</flexbox-item>
             </flexbox>
             <flexbox class="top-line">
               <flexbox-item class="label" :span="2">生产厂家</flexbox-item>
-              <flexbox-item>{{baseInfo.SCCJ}}</flexbox-item>
+              <flexbox-item>{{ baseInfo.SCCJ }}</flexbox-item>
             </flexbox>
             <flexbox class="top-line">
               <flexbox-item class="label" :span="2">批准文号</flexbox-item>
-              <flexbox-item class="right-line">{{baseInfo.PZWH}}</flexbox-item>
+              <flexbox-item class="right-line">{{
+                baseInfo.PZWH
+              }}</flexbox-item>
               <flexbox-item class="label" :span="2">库存数量</flexbox-item>
-              <flexbox-item :span="4">{{baseInfo.KCSL}}</flexbox-item>
+              <flexbox-item :span="4">{{ baseInfo.KCSL }}</flexbox-item>
             </flexbox>
             <flexbox class="top-line">
               <flexbox-item class="label" :span="2">药品编码</flexbox-item>
-              <flexbox-item :span="4" class="right-line">{{baseInfo.YPBM}}</flexbox-item>
+              <flexbox-item :span="4" class="right-line">{{
+                baseInfo.YPBM
+              }}</flexbox-item>
               <flexbox-item class="label" :span="2">存储条件</flexbox-item>
-              <flexbox-item :span="4">{{baseInfo.CCTJ}}</flexbox-item>
+              <flexbox-item :span="4">{{ baseInfo.CCTJ }}</flexbox-item>
             </flexbox>
             <flexbox class="top-line">
               <flexbox-item class="label" :span="2">规格型号</flexbox-item>
-              <flexbox-item :span="4" class="right-line">{{baseInfo.YPGG}}</flexbox-item>
+              <flexbox-item :span="4" class="right-line">{{
+                baseInfo.YPGG
+              }}</flexbox-item>
               <flexbox-item class="label" :span="2">剂型名称</flexbox-item>
-              <flexbox-item :span="4">{{baseInfo.JXMC}}</flexbox-item>
+              <flexbox-item :span="4">{{ baseInfo.JXMC }}</flexbox-item>
             </flexbox>
             <div class="shadow">
               <flexbox>
@@ -39,24 +45,39 @@
                 <flexbox-item
                   :span="4"
                   class="right-line"
-                  :style="{fontWeight:'bold',color:'red'}"
-                >{{baseInfo.HWBH}}</flexbox-item>
+                  :style="{ fontWeight: 'bold', color: 'red' }"
+                  >{{ baseInfo.HWBH }}</flexbox-item
+                >
                 <flexbox-item class="label" :span="2">拣货篮号</flexbox-item>
-                <flexbox-item :span="4" :style="{fontWeight:'bold',color:'blue'}">{{baseInfo.carId}}</flexbox-item>
+                <flexbox-item
+                  :span="4"
+                  :style="{ fontWeight: 'bold', color: 'blue' }"
+                  >{{ baseInfo.carId }}</flexbox-item
+                >
               </flexbox>
 
               <flexbox class="top-line">
                 <flexbox-item class="label right-line">生产批号</flexbox-item>
                 <flexbox-item class="label">需拣数量</flexbox-item>
               </flexbox>
-              <flexbox class="top-line" v-for="(item,ind) in phList" :key="ind">
+              <flexbox
+                class="top-line"
+                v-for="(item, ind) in phList"
+                :key="ind"
+              >
                 <flexbox-item
                   class="right-line"
-                  :style="{textAlign:'center',fontWeight:'bold'}"
-                >{{item.scph}}</flexbox-item>
+                  :style="{ textAlign: 'center', fontWeight: 'bold' }"
+                  >{{ item.scph }}</flexbox-item
+                >
                 <flexbox-item
-                  :style="{textAlign:'center',fontWeight:'bold',color:'red'}"
-                >{{item.sl}}</flexbox-item>
+                  :style="{
+                    textAlign: 'center',
+                    fontWeight: 'bold',
+                    color: 'red'
+                  }"
+                  >{{ item.sl }}</flexbox-item
+                >
               </flexbox>
             </div>
 
@@ -99,7 +120,18 @@
               placeholder="请扫描货位号"
             ></x-input>
           </group>
-          <x-button class="back-color" @click.native="handleJumpPick">跳过</x-button>
+          <div style="display:flex;">
+            <div style="flex-grow:1;">
+              <x-button class="jump-btn" @click.native="handleJumpPick"
+                >跳过</x-button
+              >
+            </div>
+            <div style="flex-grow:1;">
+              <x-button class="up-btn" @click.native="handleNoticeUp"
+                >通知上架</x-button
+              >
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -115,8 +147,18 @@
         <radio title="title" :options="options" v-model="chooseVal"></radio>
       </group>
     </popup>
-    <audio ref="successAudio" src="/static/picksuccess.mp3" preload="auto" muted></audio>
-    <audio ref="failAudio" src="/static/pickfail.mp3" preload="auto" muted></audio>
+    <audio
+      ref="successAudio"
+      src="/static/picksuccess.mp3"
+      preload="auto"
+      muted
+    ></audio>
+    <audio
+      ref="failAudio"
+      src="/static/pickfail.mp3"
+      preload="auto"
+      muted
+    ></audio>
   </div>
 </template>
 
@@ -125,7 +167,8 @@ import { mapGetters } from "vuex";
 import {
   pickSingleGoods,
   getSingleOrderDetailInfo,
-  pickSingleOrderAbnormal
+  pickSingleOrderAbnormal,
+  pushMessage
 } from "@/api";
 export default {
   name: "pickSingleModal",
@@ -142,6 +185,7 @@ export default {
   },
   data() {
     return {
+      websocket: "",
       pickOrder: {},
       chooseVal: "批号不符",
       options: ["批号不符", "数量不足", "货位架不存在"],
@@ -180,7 +224,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["getUserId"]),
+    ...mapGetters(["getUserId", "getUsername"]),
     baseInfo() {
       if (0 in this.detailList) {
         return this.detailList[0];
@@ -268,6 +312,40 @@ export default {
         totalCount += Number(item.SL);
       });
       return totalCount;
+    },
+    /**
+     * @description 通知上架
+     */
+    handleNoticeUp() {
+      let { KCSL, SL } = this.baseInfo;
+      this.$vux.confirm.show({
+        title: "提示",
+        content: "确定要通知上架吗",
+        // 组件除show外的属性
+        // onCancel() {
+        //   console.log(this); // 非当前 vm
+        //   console.log(_this); // 当前 vm
+        // },
+        onConfirm: () => {
+          console.log("baseInfo", this.baseInfo);
+          let data = pushMessage(this.baseInfo).then(res => {
+            console.log("res", res);
+            if (res.result) {
+              this.$vux.toast.show({
+                text: `通知成功！`,
+                width: "3rem",
+                type: "warn"
+              });
+            } else {
+              this.$vux.toast.show({
+                text: `通知失败！`,
+                width: "3rem",
+                type: "warn"
+              });
+            }
+          });
+        }
+      });
     },
     /**
      * 获得订单
@@ -406,8 +484,16 @@ export default {
     padding: 5px 0;
   }
 }
-.back-color {
-  background: #1eb5d2;
+.jump-btn {
+  border-radius: 0 !important;
+  color: #fff;
+  background: red;
+}
+
+.up-btn {
+  border-radius: 0 !important;
+  color: #fff;
+  background: #0099e5e6;
 }
 .popup-content {
   z-index: 1000;
@@ -436,7 +522,7 @@ export default {
   position: absolute;
   border: 1px solid black;
   transform: scaleY(0.5);
-  width: 100%;
+  width: 99%;
   height: 0;
   left: 0;
   top: 0;
