@@ -161,6 +161,7 @@
             <cell-form-preview class="table-fontsize" :list="shopInforList"></cell-form-preview>
           </group>
         </div>-->
+        
         <div class="yjs-modal-input">
           <group>
             <x-input
