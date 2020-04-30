@@ -6,9 +6,12 @@
       </div>
       <div class="yjs-table-box">
         <div class="order-container">
-          <div class="order-item" v-for="(shop, ind) in orderInforList" :key="ind">
-            <span>{{ shop.label + ":" }}</span>
-            <span>{{ shop.value }}</span>
+          <div
+            class="order-item"
+            v-for="(shop, ind) in orderInforList"
+            :key="ind"
+          >
+            <span>{{ shop.label + ":" }}</span> <span>{{ shop.value }}</span>
           </div>
         </div>
         <div class="mainContent">
@@ -249,12 +252,15 @@ export default {
     margin: auto;
     width: 15rem;
     max-height: 80%;
-    // display: table;
+    display: flex;
+    flex-direction: column;
     background-color: #fff;
     border-radius: 20px;
     overflow: hidden;
     .yjs-table-box {
-      height: 70%;
+      //   height: 70%;
+      flex-grow: 1;
+      overflow: auto;
       font-size: 20px;
     }
     .yjs-modal-edit {

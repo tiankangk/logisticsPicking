@@ -1,9 +1,11 @@
-import axios from 'axios'
+// import axios from 'axios'
+import axios from '@/utils/api'
 import store from '@/store'
 import { formatTime } from '@/utils/tools.js'
 if (process.env.NODE_ENV === 'development') {
     var baseURL = `http://localhost:3001/`;
     var outURL = `http://mqs-api.tst.yaojushi.com/svc/v1/`;
+    // var outURL = `http://mqs-api.yaojushi.com/svc/v1/`;
 } else {
     var baseURL = `http://192.168.0.38:3001/`
     var outURL = `http://mqs-api.yaojushi.com/svc/v1/`;
@@ -16,24 +18,20 @@ if (process.env.NODE_ENV === 'development') {
  * 消息推送
  */
 export const pushMessage = params => {
-    let { getUserId, getUsername } = store.getters;
+    let { getUserId, getUserMc } = store.getters;
     let nowTime = formatTime();
     let data = {
         sendUserId: getUserId,
-        sendUserName: getUsername,
+        sendUserName: getUserMc,
         sendType: 100,
         sendMode: 100,
         sendTime: nowTime,
         notificationTitle: '缺货上架',
         notificationContent: JSON.stringify(params),
-        receiveUserId: '0722',
+        receiveUserId: [0],
         moduleId: '1242095274848772001'
     }
-    return axios.post(outURL + 'notification', data, {
-        headers: {
-            'Authorization': "Basic " + btoa("BasicData:jianke@basIcDaTA")
-        }
-    }).then(res => res.data)
+    return axios.post(outURL + 'notification', data).then(res => res.data)
 }
 
 /**

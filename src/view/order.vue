@@ -2,9 +2,9 @@
   <div class="yjs-home">
     <public-header></public-header>
     <div class="yjs-order">
-      <div :style="{display:'flex'}" class="yjs-regin-home">
+      <div :style="{ display: 'flex' }" class="yjs-regin-home">
         <swiper :options="swiperOption" class="swiper-width">
-          <swiper-slide v-for="(item,ind) in shopList" :key="ind">
+          <swiper-slide v-for="(item, ind) in shopList" :key="ind">
             <x-button
               type="primary"
               mini
@@ -17,37 +17,41 @@
       </div>
       <div class="yjs-content">
         <div class="yjs-content-sub">
-          <div class="yjs-content-list" v-for="(item,ind) in allShopList" :key="ind">
-            <div class="yjs-content-number">{{ind}}</div>
+          <div
+            class="yjs-content-list"
+            v-for="(item, ind) in allShopList"
+            :key="ind"
+          >
+            <div class="yjs-content-number">{{ ind }}</div>
             <x-Table>
               <thead>
                 <tr>
-                  <th :style="{width:'6%'}">药品编码</th>
-                  <th :style="{width:'20%'}">商品名称</th>
-                  <th :style="{width:'8%'}">规格</th>
-                  <th :style="{width:'26%'}">生产厂家</th>
-                  <th :style="{width:'5%'}">数量</th>
-                  <th :style="{width:'8%'}">产品批号</th>
-                  <th :style="{width:'11%'}">货架位号</th>
-                  <th :style="{width:'8%'}">有效期至</th>
-                  <th :style="{width:'9%'}">货篮编码</th>
+                  <th :style="{ width: '6%' }">药品编码</th>
+                  <th :style="{ width: '20%' }">商品名称</th>
+                  <th :style="{ width: '8%' }">规格</th>
+                  <th :style="{ width: '26%' }">生产厂家</th>
+                  <th :style="{ width: '5%' }">数量</th>
+                  <th :style="{ width: '8%' }">产品批号</th>
+                  <th :style="{ width: '11%' }">货架位号</th>
+                  <th :style="{ width: '8%' }">有效期至</th>
+                  <th :style="{ width: '9%' }">货篮编码</th>
                 </tr>
               </thead>
               <tbody>
                 <tr
-                  v-for="(shop,ind) in item"
-                  :style="{background:shop.JHZT == 'T'?'':'#e6e12f'}"
+                  v-for="(shop, ind) in item"
+                  :style="{ background: shop.JHZT == 'T' ? '' : '#e6e12f' }"
                   :key="ind"
                 >
-                  <td>{{shop.YPBM}}</td>
-                  <td>{{shop.YPMC}}</td>
-                  <td>{{shop.YPGG}}</td>
-                  <td>{{shop.SCCJ}}</td>
-                  <td>{{shop.SL}}</td>
-                  <td>{{shop.SCPH}}</td>
-                  <td>{{shop.HWBH}}</td>
-                  <td>{{shop.YXQZ | formatTime}}</td>
-                  <td>{{shop.carid}}</td>
+                  <td>{{ shop.YPBM }}</td>
+                  <td>{{ shop.YPMC }}</td>
+                  <td>{{ shop.YPGG }}</td>
+                  <td>{{ shop.SCCJ }}</td>
+                  <td>{{ shop.SL }}</td>
+                  <td>{{ shop.SCPH }}</td>
+                  <td>{{ shop.HWBH }}</td>
+                  <td>{{ shop.YXQZ | formatTime }}</td>
+                  <td>{{ shop.carid }}</td>
                 </tr>
               </tbody>
             </x-Table>
@@ -59,38 +63,39 @@
     <div class="yjs-modal" v-show="isHide">
       <div class="yjs-modal-home">
         <div class="model-header">
-          <div class="yjs-content-number">{{areaNum+'区'}}</div>
+          <div class="yjs-content-number">{{ areaNum + "区" }}</div>
           <div class="yjs-modal-edit" @click="clickClose">
             <img src="~assets/error.png" alt />
           </div>
         </div>
         <div class="top-line yjs-table-box">
           <div class="mainContent">
-            <flexbox>
+            <!-- <flexbox>
               <flexbox-item class="label" :span="2">药品名称</flexbox-item>
-              <flexbox-item>{{baseInfo.YPMC}}</flexbox-item>
+              <flexbox-item>{{ baseInfo.YPMC }}</flexbox-item>
             </flexbox>
             <flexbox class="top-line">
               <flexbox-item class="label" :span="2">生产厂家</flexbox-item>
-              <flexbox-item>{{baseInfo.SCCJ}}</flexbox-item>
+              <flexbox-item>{{ baseInfo.SCCJ }}</flexbox-item>
+            </flexbox> -->
+
+            <flexbox>
+              <flexbox-item class="label" :span="2">药品名称</flexbox-item>
+              <flexbox-item class="right-line">{{
+                baseInfo.YPMC
+              }}</flexbox-item>
+              <flexbox-item class="label" :span="2">生产厂家</flexbox-item>
+              <flexbox-item>{{ baseInfo.SCCJ }}</flexbox-item>
             </flexbox>
-            <flexbox class="top-line">
-              <flexbox-item class="label" :span="2">批准文号</flexbox-item>
-              <flexbox-item class="right-line">{{baseInfo.PZWH}}</flexbox-item>
-              <flexbox-item class="label" :span="2">库存数量</flexbox-item>
-              <flexbox-item>{{baseInfo.KCSL}}</flexbox-item>
-            </flexbox>
-            <flexbox class="top-line">
-              <flexbox-item class="label" :span="2">药品编码</flexbox-item>
-              <flexbox-item :span="4" class="right-line">{{baseInfo.YPBM}}</flexbox-item>
-              <flexbox-item class="label" :span="2">存储条件</flexbox-item>
-              <flexbox-item :span="4">{{baseInfo.CCTJ}}</flexbox-item>
-            </flexbox>
+
             <flexbox class="top-line">
               <flexbox-item class="label" :span="2">规格型号</flexbox-item>
-              <flexbox-item :span="4" class="right-line">{{baseInfo.YPGG}}</flexbox-item>
-              <flexbox-item class="label" :span="2">剂型名称</flexbox-item>
-              <flexbox-item :span="4">{{baseInfo.JXMC}}</flexbox-item>
+              <flexbox-item :span="4" class="right-line">{{
+                baseInfo.YPGG
+              }}</flexbox-item>
+
+              <flexbox-item class="label" :span="2">库存数量</flexbox-item>
+              <flexbox-item>{{ baseInfo.KCSL }}</flexbox-item>
             </flexbox>
             <div class="shadow">
               <flexbox>
@@ -98,26 +103,57 @@
                 <flexbox-item
                   :span="4"
                   class="right-line"
-                  :style="{fontWeight:'bold',color:'red'}"
-                >{{baseInfo.HWBH}}</flexbox-item>
+                  :style="{ fontWeight: 'bold', color: 'red' }"
+                  >{{ baseInfo.HWBH }}</flexbox-item
+                >
                 <flexbox-item class="label" :span="2">拣货篮号</flexbox-item>
-                <flexbox-item :span="4" :style="{fontWeight:'bold',color:'blue'}">{{baseInfo.carid}}</flexbox-item>
+                <flexbox-item
+                  :span="4"
+                  :style="{ fontWeight: 'bold', color: 'blue' }"
+                  >{{ baseInfo.carid }}</flexbox-item
+                >
               </flexbox>
 
               <flexbox class="top-line">
                 <flexbox-item class="label right-line">生产批号</flexbox-item>
                 <flexbox-item class="label">需拣数量</flexbox-item>
               </flexbox>
-              <flexbox class="top-line" v-for="(item,ind) in phList" :key="ind">
+              <flexbox
+                class="top-line"
+                v-for="(item, ind) in phList"
+                :key="ind"
+              >
                 <flexbox-item
                   class="right-line"
-                  :style="{textAlign:'center',fontWeight:'bold'}"
-                >{{item.scph}}</flexbox-item>
+                  :style="{ textAlign: 'center', fontWeight: 'bold' }"
+                  >{{ item.scph }}</flexbox-item
+                >
                 <flexbox-item
-                  :style="{textAlign:'center',fontWeight:'bold',color:'red'}"
-                >{{item.sl}}</flexbox-item>
+                  :style="{
+                    textAlign: 'center',
+                    fontWeight: 'bold',
+                    color: 'red'
+                  }"
+                  >{{ item.sl }}</flexbox-item
+                >
               </flexbox>
             </div>
+            <flexbox class="bottom-line">
+              <flexbox-item class="label" :span="2">药品编码</flexbox-item>
+              <flexbox-item :span="4" class="right-line">{{
+                baseInfo.YPBM
+              }}</flexbox-item>
+              <flexbox-item class="label" :span="2">存储条件</flexbox-item>
+              <flexbox-item :span="4">{{ baseInfo.CCTJ }}</flexbox-item>
+            </flexbox>
+            <flexbox class="bottom-line">
+              <flexbox-item class="label" :span="2">批准文号</flexbox-item>
+              <flexbox-item class="right-line">{{
+                baseInfo.PZWH
+              }}</flexbox-item>
+              <flexbox-item class="label" :span="2">剂型名称</flexbox-item>
+              <flexbox-item :span="4">{{ baseInfo.JXMC }}</flexbox-item>
+            </flexbox>
           </div>
         </div>
         <!-- <div :style="{flexGrow:1}">
@@ -130,12 +166,34 @@
             <x-input
               ref="cargoRackInput"
               title
-              @keyup.enter.native="handlePick"
               label-width="100"
               placeholder="请扫描货位架编号"
               v-model="cargoRackNum"
-            ></x-input>
-            <x-button class="back-color" @click.native="handleJumpPick">跳过</x-button>
+            >
+              <x-button
+                mini
+                type="primary"
+                :disabled="loading"
+                :show-loading="loading"
+                slot="right"
+                :style="{ marginLeft: '10px', borderRadius: '35px' }"
+                @click.native="handlePick"
+                >拣货</x-button
+              >
+            </x-input>
+            <div style="display: flex;">
+              <div style="flex-grow: 1;">
+                <x-button class="jump-btn" @click.native="handleJumpPick"
+                  >跳过</x-button
+                >
+              </div>
+              <div style="flex-grow: 1;">
+                <x-button class="up-btn" @click.native="handleNoticeUp"
+                  >通知上架</x-button
+                >
+              </div>
+            </div>
+            <!-- <x-button class="back-color" @click.native="handleJumpPick">跳过</x-button> -->
           </group>
         </div>
       </div>
@@ -152,15 +210,24 @@
         <radio title="title" :options="options" v-model="chooseVal"></radio>
       </group>
     </popup>
-    <audio ref="successAudio" src="/static/picksuccess.mp3" preload="auto" muted></audio>
-    <audio ref="failAudio" src="/static/pickfail.mp3" preload="auto" muted></audio>
+    <audio
+      ref="successAudio"
+      src="/static/picksuccess.mp3"
+      preload="auto"
+      muted
+    ></audio>
+    <audio
+      ref="failAudio"
+      src="/static/pickfail.mp3"
+      preload="auto"
+      muted
+    ></audio>
     <!-- <popup-header
             left-text="取消"
             title="选择"
             show-bottom-border="true"
     ></popup-header>-->
     <!-- 异常订单的弹窗 -->
-  
   </div>
 </template>
 
@@ -168,8 +235,8 @@
 import {
   getPickGoodsUserAllOrderShop,
   pickGoods,
-  markReviewDiffOrder
-  
+  markReviewDiffOrder,
+  pushMessage
 } from "@/api";
 import "swiper/dist/css/swiper.css";
 import publicHeader from "@/components/header";
@@ -185,7 +252,7 @@ export default {
   },
   data() {
     return {
-     
+      loading: false,
       isPopup: false,
       chooseVal: "批号不符",
       options: ["批号不符", "数量不足", "货位架不存在"],
@@ -295,7 +362,36 @@ export default {
     }
   },
   methods: {
-  
+    /**
+     * @description 通知上架
+     */
+    handleNoticeUp() {
+      let { KCSL, SL } = this.baseInfo;
+      this.$vux.confirm.show({
+        title: "提示",
+        content: "确定要通知上架吗",
+
+        onConfirm: () => {
+          let data = pushMessage(this.baseInfo).then(res => {
+            console.log("res", res);
+            if (res.result) {
+              this.$vux.toast.show({
+                text: `通知成功！`,
+                width: "3rem",
+                type: "success"
+              });
+            } else {
+              this.$vux.toast.show({
+                text: `通知失败！`,
+                width: "3rem",
+                type: "warn"
+              });
+            }
+          });
+        }
+      });
+    },
+
     /**
      * 取消选择
      */
@@ -430,6 +526,7 @@ export default {
           // this.pickShopList[0].HWBH.replace(/\s+/g, "").toLowerCase()
         ) {
           let userId = localStorage.getItem("userId");
+          this.loading = true;
           pickGoods({
             orderId: this.pickShopList[0].ID,
             userId,
@@ -438,7 +535,9 @@ export default {
           }).then(res => {
             if (res.success) {
               this.$vux.toast.show({
-                text: `拣货完成，拣货篮号<span style="color:red;">${this.pickShopList[0].carid}</span>`,
+                text: `拣货完成，拣货篮号<span style="color:red;">${
+                  this.pickShopList[0].carid
+                }</span>`,
                 width: "3rem",
                 type: "success"
               });
@@ -459,6 +558,7 @@ export default {
             } else {
               this.$refs.failAudio.play();
             }
+            this.loading = false;
           });
         } else {
           this.$refs.failAudio.play();
@@ -551,7 +651,17 @@ export default {
 <style lang="less" scoped>
 @import "../style/public.less";
 @import "../style/order.less";
+.jump-btn {
+  border-radius: 0 !important;
+  color: #fff;
+  background: red;
+}
 
+.up-btn {
+  border-radius: 0 !important;
+  color: #fff;
+  background: #0099e5e6;
+}
 .table-fontsize {
   font-size: 22px;
 }
@@ -596,7 +706,8 @@ export default {
   }
 }
 .top-line,
-.right-line {
+.right-line,
+.bottom-line {
   position: relative;
 }
 .right-line::after {
@@ -614,7 +725,7 @@ export default {
   position: absolute;
   border: 1px solid black;
   transform: scaleY(0.5);
-  width: 100%;
+  width: 99%;
   height: 0;
   left: 0;
   top: 0;
@@ -622,5 +733,15 @@ export default {
 .shadow {
   margin: 5px;
   box-shadow: 0 0 4px 2px red;
+}
+.bottom-line::after {
+  content: "";
+  position: absolute;
+  border: 1px solid black;
+  transform: scaleY(0.5);
+  width: 99%;
+  height: 0;
+  left: 0;
+  bottom: 0;
 }
 </style>

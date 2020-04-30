@@ -23,6 +23,7 @@ const mutations = {
 }
 const getters = {
     getUsername: ()=> localStorage.getItem('username'),
+    getUserMc: ()=> localStorage.getItem('mc'),
     getUserId:()=> localStorage.getItem('userId'),
     getPickOrderCount: (state) => state.pickOrderCount
 }

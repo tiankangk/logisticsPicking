@@ -4,9 +4,9 @@
       <div class="pull-left">
         <x-icon @click="showHeader" type="ios-arrow-down" size="30"></x-icon>
       </div>
-      <div class="pull-right">
+      <!-- <div class="pull-right">
         <x-icon type="ios-help-empty" @click="handleAbnormal" size="30"></x-icon>
-      </div>
+      </div> -->
     </div>
     <transition name="bounce">
       <div v-if="isShow" class="yjs-title" :style="{'z-index':zIndexVal}">

@@ -6,12 +6,11 @@
       <div class="yjs-title">
         <div class="title">
           可接单订单
-          <span>{{canGetSingleOrderCount}}</span>,
-          多订单
-          <span>{{canGetOrderCount}}</span>,
-          拣货单
-          <span>{{singleOrderCount}}</span>-
-          <span>{{moreOrderCount}}</span>
+          <span>{{ canGetSingleOrderCount }}</span
+          >, 多订单 <span>{{ canGetOrderCount }}</span
+          >, 拣货单 <span>{{ singleOrderCount }}</span
+          >-
+          <span>{{ moreOrderCount }}</span>
         </div>
       </div>
       <div class="yjs-table-box">
@@ -21,13 +20,19 @@
       <div class="yjs-footer">
         <div class="yjs-btn-group">
           <x-button
-            :style="{background:isOrderStatus?'#1eb5d2':'#a4e4cf',color:'#fff'}"
+            :style="{
+              background: isOrderStatus ? '#1eb5d2' : '#a4e4cf',
+              color: '#fff',
+            }"
             mini
             text="单品接单"
             @click.native="handleGetSingleOrder"
           ></x-button>
           <x-button
-            :style="{background:isOrderStatus?'#a4e4cf':'#1eb5d2',color:'#fff'}"
+            :style="{
+              background: isOrderStatus ? '#a4e4cf' : '#1eb5d2',
+              color: '#fff',
+            }"
             mini
             text="多品接单"
             @click.native="handleGetOrder"
@@ -35,7 +40,10 @@
           <x-button
             mini
             text="开始拣货"
-            :style="{background:pickStatus?'#a4e4cf':'#1eb5d2',color:'#fff'}"
+            :style="{
+              background: pickStatus ? '#a4e4cf' : '#1eb5d2',
+              color: '#fff',
+            }"
             @click.native="clickLogin"
           ></x-button>
         </div>
@@ -50,10 +58,23 @@
       :getOrder="getOrder"
     ></get-order>
     <!-- 接单品单弹框 -->
-    <get-single-order ref="getSingleOrder" :isDrop="isDrop" :getSingleOrder="getSingleOrder"></get-single-order>
+    <get-single-order
+      ref="getSingleOrder"
+      :isDrop="isDrop"
+      :getSingleOrder="getSingleOrder"
+    ></get-single-order>
     <audio ref="audio" loop src="/static/bg.mp3" preload="auto" muted></audio>
-    <audio ref="getOrderNotice" src="/static/getOrder.mp3" preload="auto" muted></audio>
-    <iframe allow="autoplay" style="display:none" src="/static/bg.mp3"></iframe>
+    <audio
+      ref="getOrderNotice"
+      src="/static/getOrder.mp3"
+      preload="auto"
+      muted
+    ></audio>
+    <iframe
+      allow="autoplay"
+      style="display: none;"
+      src="/static/bg.mp3"
+    ></iframe>
   </div>
 </template>
 
@@ -69,7 +90,7 @@ import {
   getPickGoodsSingleOrder,
   getPickGoodsUserStatus,
   getPickGoodSingleOrderCount,
-  getSingleMoreOrderCount
+  getSingleMoreOrderCount,
 } from "@/api";
 import { setTimeout, clearTimeout, setInterval, clearInterval } from "timers";
 export default {
@@ -77,13 +98,13 @@ export default {
   components: {
     getOrder,
     getSingleOrder,
-    publicHeader
+    publicHeader,
   },
   data() {
     return {
       timer: null,
       isOrder: {
-        val: true
+        val: true,
       },
       singleOrderCount: 0,
       moreOrderCount: 0,
@@ -91,10 +112,10 @@ export default {
       canGetOrderCount: 0,
       isDrop: {
         isGetOrder: false,
-        isGetSingleOrder: false
+        isGetSingleOrder: false,
       },
       getSingleOrder: [],
-      getOrder: {}
+      getOrder: {},
       // testOrderSingle: 19,
       // textOrderMany: 18
     };
@@ -124,14 +145,14 @@ export default {
     ...mapGetters(["getUsername", "getUserId", "getPickOrderCount"]),
     isOrderStatus() {
       return this.$route.name === "singleShopInfo";
-    }
+    },
   },
   methods: {
     // 获取用户的权限状态
     async getUserStatus() {
       return await getPickGoodsUserStatus({
-        userId: this.getUserId
-      }).then(res => {
+        userId: this.getUserId,
+      }).then((res) => {
         return res.result;
       });
     },
@@ -143,7 +164,7 @@ export default {
         this.$vux.toast.show({
           text: "没有能拣的商品",
           width: "2rem",
-          type: "warn"
+          type: "warn",
         });
       } else {
         if (this.$route.name === "singleShopInfo") {
@@ -171,7 +192,7 @@ export default {
           this.pickStatus
         ) {
           // if(true){
-          getPickGoodsSingleOrder({ userId: this.getUserId }).then(res => {
+          getPickGoodsSingleOrder({ userId: this.getUserId }).then((res) => {
             if (res.success === true) {
               this.isDrop.isGetSingleOrder = true;
               this.getSingleOrder = res.result;
@@ -184,13 +205,13 @@ export default {
               this.$vux.toast.show({
                 text: "订单冲突，请重新接单",
                 width: "2rem",
-                type: "warn"
+                type: "warn",
               });
             } else {
               this.$vux.toast.show({
                 text: "没有能接的订单",
                 width: "2rem",
-                type: "warn"
+                type: "warn",
               });
             }
           });
@@ -198,7 +219,7 @@ export default {
           this.$vux.toast.show({
             text: "不能接单品单",
             width: "2rem",
-            type: "warn"
+            type: "warn",
           });
         }
       }
@@ -212,16 +233,16 @@ export default {
       if (userStatus !== 4) {
         // if (true) {
         if (this.btnStatus === "many" || this.btnStatus === "all") {
-          // if (true) {
+          //   if (true) {
           if (this.getPickOrderCount < 20) {
-            getPickGoodsOrder({ userId: this.userId }).then(res => {
+            getPickGoodsOrder({ userId: this.userId }).then((res) => {
               if (res.success === true) {
                 this.$refs.getOrder.$refs.car.focus();
                 this.isDrop.isGetOrder = true;
                 this.closeTimer();
                 this.getOrder = {
                   orderInfo: res.result,
-                  shopList: res.allShop
+                  shopList: res.allShop,
                 };
                 this.getOrder.YPSL = res.shopCount;
 
@@ -230,13 +251,13 @@ export default {
                 this.$vux.toast.show({
                   text: "订单冲突，请重新接单",
                   width: "2rem",
-                  type: "warn"
+                  type: "warn",
                 });
               } else {
                 this.$vux.toast.show({
                   text: "没有能接的订单",
                   width: "2rem",
-                  type: "warn"
+                  type: "warn",
                 });
               }
               this.isOrder.val = true;
@@ -245,14 +266,14 @@ export default {
             this.$vux.toast.show({
               text: "多品可接订单不能超过20个",
               width: "2rem",
-              type: "warn"
+              type: "warn",
             });
           }
         } else {
           this.$vux.toast.show({
             text: "不能接多品单",
             width: "2rem",
-            type: "warn"
+            type: "warn",
           });
         }
       }
@@ -264,14 +285,14 @@ export default {
     },
     // 获取可接单品订单的数量
     getSingleOrderCount() {
-      getPickGoodSingleOrderCount().then(res => {
+      getPickGoodSingleOrderCount().then((res) => {
         this.canGetSingleOrderCount = res.result;
       });
     },
     // 获取可接多品订单的数量
     getVariousOrderCount() {
       // 获取多订单的数量
-      getPickGoodOrderCount().then(res => {
+      getPickGoodOrderCount().then((res) => {
         this.canGetOrderCount = res.result;
       });
     },
@@ -314,7 +335,7 @@ export default {
       }, 300000);
     },
     getSingleMoreOrderCount() {
-      getSingleMoreOrderCount({ userId: this.getUserId }).then(res => {
+      getSingleMoreOrderCount({ userId: this.getUserId }).then((res) => {
         if (res.success) {
           this.singleOrderCount = res.singleNum;
           this.moreOrderCount = res.moreNum;
@@ -323,9 +344,10 @@ export default {
           this.moreOrderCount = 0;
         }
       });
-    }
+    },
   },
   async mounted() {
+    console.log(null === null);
     this.getSingleOrderCount();
     this.getVariousOrderCount();
     this.getOrderCount();
@@ -333,7 +355,7 @@ export default {
   },
   destroyed() {
     this.closeTimer();
-  }
+  },
 };
 </script>
 

@@ -7,37 +7,32 @@
         </div>
         <div class="top-line yjs-table-box">
           <div class="mainContent">
-            <flexbox>
+            <!-- <flexbox>
               <flexbox-item class="label" :span="2">药品名称</flexbox-item>
               <flexbox-item>{{ baseInfo.YPMC }}</flexbox-item>
             </flexbox>
             <flexbox class="top-line">
               <flexbox-item class="label" :span="2">生产厂家</flexbox-item>
               <flexbox-item>{{ baseInfo.SCCJ }}</flexbox-item>
-            </flexbox>
-            <flexbox class="top-line">
-              <flexbox-item class="label" :span="2">批准文号</flexbox-item>
+            </flexbox> -->
+
+            <flexbox>
+              <flexbox-item class="label" :span="2">药品名称</flexbox-item>
               <flexbox-item class="right-line">{{
-                baseInfo.PZWH
+                baseInfo.YPMC
               }}</flexbox-item>
-              <flexbox-item class="label" :span="2">库存数量</flexbox-item>
-              <flexbox-item :span="4">{{ baseInfo.KCSL }}</flexbox-item>
+              <flexbox-item class="label" :span="2">生产厂家</flexbox-item>
+              <flexbox-item :span="4">{{ baseInfo.SCCJ }}</flexbox-item>
             </flexbox>
-            <flexbox class="top-line">
-              <flexbox-item class="label" :span="2">药品编码</flexbox-item>
-              <flexbox-item :span="4" class="right-line">{{
-                baseInfo.YPBM
-              }}</flexbox-item>
-              <flexbox-item class="label" :span="2">存储条件</flexbox-item>
-              <flexbox-item :span="4">{{ baseInfo.CCTJ }}</flexbox-item>
-            </flexbox>
+
             <flexbox class="top-line">
               <flexbox-item class="label" :span="2">规格型号</flexbox-item>
               <flexbox-item :span="4" class="right-line">{{
                 baseInfo.YPGG
               }}</flexbox-item>
-              <flexbox-item class="label" :span="2">剂型名称</flexbox-item>
-              <flexbox-item :span="4">{{ baseInfo.JXMC }}</flexbox-item>
+
+              <flexbox-item class="label" :span="2">库存数量</flexbox-item>
+              <flexbox-item :span="4">{{ baseInfo.KCSL }}</flexbox-item>
             </flexbox>
             <div class="shadow">
               <flexbox>
@@ -80,6 +75,22 @@
                 >
               </flexbox>
             </div>
+            <flexbox class="bottom-line">
+              <flexbox-item class="label" :span="2">药品编码</flexbox-item>
+              <flexbox-item :span="4" class="right-line">{{
+                baseInfo.YPBM
+              }}</flexbox-item>
+              <flexbox-item class="label" :span="2">存储条件</flexbox-item>
+              <flexbox-item :span="4">{{ baseInfo.CCTJ }}</flexbox-item>
+            </flexbox>
+            <flexbox class="bottom-line">
+              <flexbox-item class="label" :span="2">批准文号</flexbox-item>
+              <flexbox-item class="right-line">{{
+                baseInfo.PZWH
+              }}</flexbox-item>
+              <flexbox-item class="label" :span="2">剂型名称</flexbox-item>
+              <flexbox-item :span="4">{{ baseInfo.JXMC }}</flexbox-item>
+            </flexbox>
 
             <!-- <x-Table>
               <thead>
@@ -113,20 +124,40 @@
           <group>
             <x-input
               ref="cargoRackInput"
-              @keyup.enter.native="handleGetOrder"
               title
               label-width="100"
               v-model="cargoRackNum"
               placeholder="请扫描货位号"
-            ></x-input>
+            >
+              <x-button
+                mini
+                type="primary"
+                :disabled="loading"
+                :show-loading="loading"
+                slot="right"
+                :style="{ marginLeft: '10px', borderRadius: '35px' }"
+                @click.native="handleGetOrder"
+                >拣货</x-button
+              >
+              <!-- <span
+                @click="handleGetOrder"
+                slot="right"
+                :style="{
+                  marginLeft: '10px',
+                  color: 'black',
+                  fontSize: '20px'
+                }"
+                >拣货</span
+              > -->
+            </x-input>
           </group>
-          <div style="display:flex;">
-            <div style="flex-grow:1;">
+          <div style="display: flex;">
+            <div style="flex-grow: 1;">
               <x-button class="jump-btn" @click.native="handleJumpPick"
                 >跳过</x-button
               >
             </div>
-            <div style="flex-grow:1;">
+            <div style="flex-grow: 1;">
               <x-button class="up-btn" @click.native="handleNoticeUp"
                 >通知上架</x-button
               >
@@ -185,6 +216,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       websocket: "",
       pickOrder: {},
       chooseVal: "批号不符",
@@ -321,20 +353,14 @@ export default {
       this.$vux.confirm.show({
         title: "提示",
         content: "确定要通知上架吗",
-        // 组件除show外的属性
-        // onCancel() {
-        //   console.log(this); // 非当前 vm
-        //   console.log(_this); // 当前 vm
-        // },
+
         onConfirm: () => {
-          console.log("baseInfo", this.baseInfo);
-          let data = pushMessage(this.baseInfo).then(res => {
-            console.log("res", res);
+          pushMessage(this.baseInfo).then(res => {
             if (res.result) {
               this.$vux.toast.show({
                 text: `通知成功！`,
                 width: "3rem",
-                type: "warn"
+                type: "success"
               });
             } else {
               this.$vux.toast.show({
@@ -361,6 +387,7 @@ export default {
           : "";
         if (cargoRackNum === HWBH) {
           // let userId = localStorage.getItem("userId");
+          this.loading = true;
           pickSingleGoods({
             userId: this.getUserId,
             YPBM: detailList.YPBM,
@@ -374,7 +401,7 @@ export default {
                 width: "2rem"
               });
               this.shopList.splice(0, 1);
-              this.actionInput();
+
               this.$refs.successAudio.play();
             } else {
               this.$vux.toast.show({
@@ -382,6 +409,7 @@ export default {
                 width: "2rem",
                 type: "error"
               });
+              this.actionInput();
               this.$refs.failAudio.play();
             }
           });
@@ -393,6 +421,7 @@ export default {
             type: "warn"
           });
         }
+        this.loading = false;
         this.actionInput();
         clearTimeout(timer);
       }, 500);
@@ -504,7 +533,8 @@ export default {
   transform: translateX(-50%);
 }
 .top-line,
-.right-line {
+.right-line,
+.bottom-line {
   position: relative;
 }
 .right-line::after {
@@ -526,5 +556,15 @@ export default {
   height: 0;
   left: 0;
   top: 0;
+}
+.bottom-line::after {
+  content: "";
+  position: absolute;
+  border: 1px solid black;
+  transform: scaleY(0.5);
+  width: 99%;
+  height: 0;
+  left: 0;
+  bottom: 0;
 }
 </style>
